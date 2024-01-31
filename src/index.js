@@ -35,7 +35,88 @@ function createGameBoard() {
   }
 }
 
+function insertLetter(pressedKey) {
+  // check that there is space in the guess for this letter
+  if (nextLetter == 5) {
+    return;
+  }
+
+  // turn key into lower case
+  pressedKey = pressedKey.toLowerCase();
+
+  // find the appropriate row and insert the selected letter into the box
+  let letterRow = document.getElementsByClassName("letterRow")[6 - remainingGuesses];
+  let letterBox = letterRow.children[nextLetter];
+  letterBox.textContent = pressedKey;
+  letterBox.classList.add("filledBox");
+  currentGuess.push(pressedKey);
+  nextLetter += 1;
+}
+
+function deleteLetter() {
+  // find the correct row, find the last box and delete it, and reset the nextLetter counter
+  let letterRow = document.getElementsByClassName("letterRow")[6 - remainingGuesses];
+  let letterBox = letterRow.children[nextLetter - 1];
+  letterBox.textContent = "";
+  letterBox.classList.remove("filledBox");
+  currentGuess.pop();
+  nextLetter -= 1;
+}
+
+// work in progress function
+function checkGuess() {
+  let letterRow = document.getElementsByClassName("letterRow")[6 - remainingGuesses];
+  let guessString = "";
+  let rightGuess = Array.from(rightGuessString);
+
+  for (const val of currentGuess) {
+    guessString += val;
+  }
+
+  if (guessString.length != 5) {
+    alert("Not enough letters!");
+    return;
+  }
+
+  if (!words.includes(guessString)) {
+    alert("Word not in list!");
+    return;
+  }
+
+  for (let i = 0; i < 5; i++) {
+    let letterColor = "";
+    let letterBox = letterRow.children[i];
+    let letter = currentGuess[i];
+
+    let letterPosition = rightGuess.indexOf(currentGuess[i]);
+  }
+}
+
 window.addEventListener("load", function(event) {
   event.preventDefault();
   createGameBoard();
+  document.addEventListener("keyup", (e) => {
+    e.preventDefault();
+    if (remainingGuesses == 0) {
+      return;
+    }
+
+    let pressedKey = String(e.key);
+    if (pressedKey == "Backspace" && nextLetter !== 0) {
+      deleteLetter()
+      return;
+    }
+
+    if (pressedKey == "Enter") {
+      checkGuess()
+      return;
+    }
+
+    let found = pressedKey.match(/[a-z]/gi)
+    if (!found || found.length > 1) {
+      return;
+    } else {
+      insertLetter(pressedKey);
+    }
+  });
 });

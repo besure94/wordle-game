@@ -1,8 +1,8 @@
-# Template Repository
+# Wordle Game
 
-#### Use this template repository for starting new projects. Update with new technologies and packages when necessary.
+#### This repo was created following a tutorial from [freeCodeCamp](https://www.freecodecamp.org/news/build-a-wordle-clone-in-javascript/).
 
-#### By (Your Name Here)
+#### By Brian Scherner
 
 ## Technologies Used
 
